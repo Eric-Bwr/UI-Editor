@@ -8,21 +8,6 @@
 #include <Window/WindowManager.h>
 #include <UI/UIManager.h>
 
-class Test : public Window{
-public:
-    UIManager ui;
-    UIImage* img;
-    void keyCallback(int key, int scancode, int action, int mods) {
-        img->setPosition(img->positionX + 1.0f, img->positionY);
-    }
-    void charCallback(unsigned int key) {}
-    void mousePositionCallback(double x, double y) {}
-    void mouseButtonCallback(int button, int action, int mods) {}
-    void scrollCallback(double x, double y) {}
-    void resizeCallback(int width, int height) {}
-    void closeCallback() {}
-};
-
 class Application : public Window {
 public:
     void preInit();
@@ -41,7 +26,11 @@ public:
     UIScrollbar* scrollbar;
     UISlider* slider;
     UISplitPane* splitPane;
-    Test test;
+    UISwitch* switchUI;
+    UIText* text;
+    UITextArea* textArea;
+    UITextField* textField;
+    Font* font;
 private:
     void keyCallback(int key, int scancode, int action, int mods) override;
     void charCallback(unsigned int key) override;

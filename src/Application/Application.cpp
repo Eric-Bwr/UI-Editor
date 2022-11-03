@@ -28,7 +28,7 @@ int main(){
 }
 
 void Application::preInit() {
-    logger.setLogFile("Logs");
+    logPath("Logs");
     logInfo("Pre init...");
     width = 1600 - 100;
     height = 800 - 100;
@@ -37,40 +37,41 @@ void Application::preInit() {
     this->initWindow("UI-Editor", width, height);
     this->setIcon("../Assets/Textures/Icon.png");
     this->center(WindowManager::getVideoMode()->width * 2);
+    this->setMouse(width / 2.0, height / 2.0);
 
     this->ui.init(width, height);
+
     this->img = new UIImage(20, 20, 40, 40);
     this->button = new UIButton(20, 80, 40, 40);
-    this->circularBar = new UICircularBar(80, 20, 200, 200);
-    this->scrollbar = new UIScrollbar(circularBar, 80, 20, 200, 100);
+    this->circularBar = new UICircularBar(500, 20, 200, 200);
+    this->scrollbar = new UIScrollbar(img, 80, 20, 200, 20);
     this->slider = new UISlider(80, 200, 200, 100);
     this->splitPane = new UISplitPane(80, 200, 200, 100);
+    this->switchUI = new UISwitch(300, 200, 200, 100);
+    this->font = new Font("../Assets/arial.ttf");
+    this->text = new UIText("Sample Text", this->font, 52, 500, 0, 400, 400, CENTERED);
+    this->textArea = new UITextArea(this->font, 20, 0, height / 2, 400, 400, 10);
+    this->textField = new UITextField("Sample Field", this->font, 16, 500, 400, 900, 180, 0);
     this->ui.add(this->img);
     this->ui.add(this->button);
     this->ui.add(this->scrollbar);
     this->ui.add(this->circularBar);
     this->ui.add(this->slider);
     this->ui.add(this->splitPane);
+    this->ui.add(this->switchUI);
+    this->ui.add(this->text);
+    this->ui.add(this->textArea);
+    this->ui.add(this->textField);
     this->button->setText("TW");
     this->button->setFontSize(20);
     this->circularBar->setColor({0, 0, 0, 0});
+    this->switchUI->setCircular(true);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glViewport(0, 0, width, height);
-
-
-    test.initWindow("UI-Editor2", width, height);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    test.ui.init(width, height);
-    test.img = new UIImage(20, 80, 40, 40);
-    test.ui.add(test.img);
 
     WindowManager::addWindow(this);
-    WindowManager::addWindow(&test);
 
-    this->setMouse(width / 2.0, height / 2.0);
-    glViewport(0, 0, width, height);
     logInfo("Initialized OpenGL");
 }
 
@@ -89,12 +90,7 @@ void Application::run() {
         glClear(GL_COLOR_BUFFER_BIT);
         this->ui.render();
 
-        test.context();
-        glClear(GL_COLOR_BUFFER_BIT);
-        test.ui.render();
-
         this->swapBuffers();
-        test.swapBuffers();
 
         currentTime = glfwGetTime();
         frameDeltaTime = currentTime - lastFrameTime;
