@@ -29,3 +29,32 @@ void ProgramScreen::end() {
 void ProgramScreen::computeFile() {
     
 }
+
+void ProgramScreen::keyCallback(int key, int scancode, int action, int mods){
+
+}
+
+void ProgramScreen::charCallback(unsigned int key){
+
+}
+
+void ProgramScreen::mousePositionCallback(double x, double y){
+
+}
+
+void ProgramScreen::mouseButtonCallback(int button, int action, int mods){
+
+}
+
+void ProgramScreen::scrollCallback(double x, double y){
+
+}
+
+void ProgramScreen::resizeCallback(int width, int height){
+
+}
+
+void ProgramScreen::closeCallback(){
+
+}
+
