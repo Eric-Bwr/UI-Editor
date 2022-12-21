@@ -10,6 +10,8 @@ public:
     void end();
 private:
     UIManager ui;
+    UIImage backgroundImage;
+    Texture backgroundTexture;
     int width, height;
     void keyCallback(int key, int scancode, int action, int mods) override;
     void charCallback(unsigned int key) override;

@@ -2,8 +2,8 @@
 #include "../Application/Application.h"
 
 void MainScreen::init() {
-    width = 800;
-    height = 500;
+    width = 600;
+    height = 600;
     this->hint(GLFW_RESIZABLE, GLFW_FALSE);
     this->initWindow("UI-Editor", width, height);
     this->setIcon("../Assets/Textures/Icon.png");
@@ -17,6 +17,12 @@ void MainScreen::init() {
     glViewport(0, 0, width, height);
 
     WindowManager::addWindow(this);
+
+    backgroundTexture.init("../Assets/Textures/Icon.png");
+    backgroundImage.init(0, 0, width, height);
+    backgroundImage.setTexture(&backgroundTexture);
+    backgroundImage.setColor({1.0, 1.0, 1.0, 0.2});
+    this->ui.add(backgroundImage);
 }
 
 void MainScreen::render() {
