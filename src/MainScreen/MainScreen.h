@@ -12,7 +12,11 @@ private:
     UIManager ui;
     UIImage backgroundImage;
     Texture backgroundTexture;
+    Font font;
+    UITextField fieldWidth, fieldHeight;
     int width, height;
+
+    void fieldWidthCallback(std::string content, std::string passwordContent);
     void keyCallback(int key, int scancode, int action, int mods) override;
     void charCallback(unsigned int key) override;
     void mousePositionCallback(double x, double y) override;
