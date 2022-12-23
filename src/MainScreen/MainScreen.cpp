@@ -11,7 +11,7 @@ void MainScreen::init() {
     this->center(WindowManager::getVideoMode()->width * 2);
     this->setMouse(width / 2.0, height / 2.0);
 
-    this->ui.init(width, height);
+    this->ui.init(width, height, true);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -35,7 +35,9 @@ void MainScreen::init() {
     fieldWidth.setBackgroundColor({0.4, 0.4, 0.4, 0.4}, {0.5, 0.5, 0.5, 0.5}, {0.7, 0.7, 0.7, 0.7});
     fieldHeight.setBackgroundColor(fieldWidth.bgColor.standard, fieldWidth.bgColor.hover, fieldWidth.bgColor.pressed);
     fieldWidth.setContentCallback(CALLBACK(MainScreen::fieldWidthCallback));
+    fieldHeight.setContentCallback(CALLBACK(MainScreen::fieldHeightCallback));
     fieldWidth.setOnlyNumbers(true);
+    fieldHeight.setOnlyNumbers(true);
     this->ui.add(fieldWidth);
     this->ui.add(fieldHeight);
 }
@@ -48,7 +50,32 @@ void MainScreen::render() {
 }
 
 void MainScreen::fieldWidthCallback(std::string content, std::string passwordContent) {
-    std::cout << content << " | " << passwordContent << std::endl;
+    width = atoi(content.data());
+}
+
+void MainScreen::fieldHeightCallback(std::string content, std::string passwordContent) {
+    height = atoi(content.data());
+}
+
+void MainScreen::createWindow(bool shift) {
+    glViewport(0, 0, width, height);
+    this->setSize(width, height);
+    if(shift){
+        this->ui.remove(fieldWidth);
+        this->ui.remove(fieldHeight);
+    }
+}
+
+void MainScreen::switchBetween() {
+    if(fieldWidth.pressed){
+        fieldWidth.pressed = fieldWidth.hovered = false;
+        fieldHeight.pressed = fieldHeight.hovered = true;
+        fieldHeight.mouseButtonInput(INPUT_PRESSED);
+    }else if(fieldHeight.pressed){
+        fieldHeight.pressed = fieldHeight.hovered = false;
+        fieldWidth.pressed = fieldWidth.hovered = true;
+        fieldWidth.mouseButtonInput(INPUT_PRESSED);
+    }
 }
 
 void MainScreen::end() {

@@ -9,6 +9,8 @@ public:
     void render();
     void end();
 private:
+    void switchBetween();
+    void createWindow(bool shift);
     UIManager ui;
     UIImage backgroundImage;
     Texture backgroundTexture;
@@ -17,6 +19,7 @@ private:
     int width, height;
 
     void fieldWidthCallback(std::string content, std::string passwordContent);
+    void fieldHeightCallback(std::string content, std::string passwordContent);
     void keyCallback(int key, int scancode, int action, int mods) override;
     void charCallback(unsigned int key) override;
     void mousePositionCallback(double x, double y) override;

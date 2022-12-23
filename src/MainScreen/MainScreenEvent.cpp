@@ -1,8 +1,14 @@
 #include "MainScreen.h"
 
 void MainScreen::keyCallback(int key, int scancode, int action, int mods){
-    if (key == GLFW_KEY_LEFT_ALT && action == GLFW_PRESS)
-        alive = false;
+    if(action == GLFW_PRESS){
+        if (key == GLFW_KEY_LEFT_ALT && mods == GLFW_MOD_CONTROL)
+            alive = false;
+        else if(key == GLFW_KEY_ENTER)
+            createWindow(mods == GLFW_MOD_SHIFT);
+        else if(key == GLFW_KEY_TAB)
+            switchBetween();
+    }
     ui.keyInput(key, action, mods);
 }
 

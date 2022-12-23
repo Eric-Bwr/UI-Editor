@@ -52,9 +52,6 @@ void Application::run() {
 
         mainScreen->render();
 
-        for(auto& screen : programScreens)
-            screen.render();
-
         currentTime = glfwGetTime();
         frameDeltaTime = currentTime - lastFrameTime;
         frames++;
@@ -69,9 +66,4 @@ void Application::end() {
     logInfo("Shutting down...");
     delete mainScreen;
     logInfo("Shut down");
-}
-
-void Application::addProgramScreen(const char *name, int width, int height) {
-    programScreens.resize(programScreens.size() + 1);
-    programScreens.back().init(name, width, height);
 }
