@@ -4,7 +4,7 @@
 
 void MainScreen::init() {
     width = 300;
-    height = 200;
+    height = 200 * 3;
     this->hint(GLFW_RESIZABLE, GLFW_FALSE);
     this->initWindow("UI-Editor", width, height);
     this->setIcon("../Assets/Textures/Icon.png");
@@ -38,8 +38,25 @@ void MainScreen::init() {
     fieldHeight.setContentCallback(CALLBACK(MainScreen::fieldHeightCallback));
     fieldWidth.setOnlyNumbers(true);
     fieldHeight.setOnlyNumbers(true);
-    this->ui.add(fieldWidth);
-    this->ui.add(fieldHeight);
+    //this->ui.add(fieldWidth);
+    //this->ui.add(fieldHeight);
+
+
+    list.init(0, 0, 200, 550, 20, &font);
+    list.addEntry("test1g");
+    list.addEntry("test2");
+    list.addEntry("test3");
+    list.addEntry("test4");
+    list.entries.at(0)->setBackgroundColor(COLOR_YELLOW, COLOR_YELLOW, COLOR_YELLOW);
+    list.entries.at(1)->setBackgroundColor(COLOR_BLUE, COLOR_BLUE, COLOR_BLUE);
+    list.entries.at(2)->setBackgroundColor(COLOR_GREEN, COLOR_GREEN, COLOR_GREEN);
+    list.entries.at(3)->setBackgroundColor(COLOR_CYAN, COLOR_CYAN, COLOR_CYAN);
+    this->ui.add(list);
+
+    for(int i = 0; i < 20; i++) {
+        this->text[i].init((std::to_string(i) + " Hallo").data(), DataManager::defaultFont, i, 210, i * 20, 200, 30, CENTERED_VERTICAL_LEFT);
+        this->ui.add(text[i]);
+    }
 }
 
 void MainScreen::render() {
@@ -58,6 +75,8 @@ void MainScreen::fieldHeightCallback(std::string content, std::string passwordCo
 }
 
 void MainScreen::createWindow(bool shift) {
+    if(width < 400 && height < 400)
+        return;
     glViewport(0, 0, width, height);
     this->setSize(width, height);
     if(shift){
