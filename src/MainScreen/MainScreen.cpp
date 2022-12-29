@@ -1,9 +1,10 @@
 #include <iostream>
 #include "MainScreen.h"
 #include "UI/UIStructure/DataManager.h"
+#include "UI/UIComponents/Text/Structure/FontType.h"
 
 void MainScreen::init() {
-    width = 300;
+    width = 500;
     height = 200 * 3;
     this->hint(GLFW_RESIZABLE, GLFW_FALSE);
     this->initWindow("UI-Editor", width, height);
@@ -25,38 +26,31 @@ void MainScreen::init() {
     backgroundImage.setColor({1.0, 1.0, 1.0, 0.2});
     this->ui.add(backgroundImage);
 
+
     font.init("../Assets/arial.ttf");
 
     int offsetX = 20;
     int offsetY = 80;
     int sizeY = 50;
-    fieldWidth.init("Width", &font, 2, offsetX, height - offsetY - sizeY * 2, width - offsetX * 2, sizeY, 2);
-    fieldHeight.init("Height", &font, 2, offsetX, height - offsetY, width - offsetX * 2, sizeY, 2);
+    fieldWidth.init("Width", &font, 40, offsetX, height - offsetY - sizeY * 2, width - offsetX * 2, sizeY, 2);
+    fieldHeight.init("Height", &font, 40, offsetX, height - offsetY, width - offsetX * 2, sizeY, 2);
     fieldWidth.setBackgroundColor({0.4, 0.4, 0.4, 0.4}, {0.5, 0.5, 0.5, 0.5}, {0.7, 0.7, 0.7, 0.7});
     fieldHeight.setBackgroundColor(fieldWidth.bgColor.standard, fieldWidth.bgColor.hover, fieldWidth.bgColor.pressed);
-    fieldWidth.setContentCallback(CALLBACK(MainScreen::fieldWidthCallback));
-    fieldHeight.setContentCallback(CALLBACK(MainScreen::fieldHeightCallback));
+    fieldWidth.setContentCallback(UICALLBACK(MainScreen::fieldWidthCallback));
+    fieldHeight.setContentCallback(UICALLBACK(MainScreen::fieldHeightCallback));
     fieldWidth.setOnlyNumbers(true);
     fieldHeight.setOnlyNumbers(true);
-    //this->ui.add(fieldWidth);
-    //this->ui.add(fieldHeight);
-
+    fieldWidth.setMaxCharacter(4);
+    fieldHeight.setMaxCharacter(4);
+    this->ui.add(fieldWidth);
+    this->ui.add(fieldHeight);
 
     list.init(0, 0, 200, 550, 20, &font);
     list.addEntry("test1g");
-    list.addEntry("test2");
+    list.addEntry("test2g");
     list.addEntry("test3");
     list.addEntry("test4");
-    list.entries.at(0)->setBackgroundColor(COLOR_YELLOW, COLOR_YELLOW, COLOR_YELLOW);
-    list.entries.at(1)->setBackgroundColor(COLOR_BLUE, COLOR_BLUE, COLOR_BLUE);
-    list.entries.at(2)->setBackgroundColor(COLOR_GREEN, COLOR_GREEN, COLOR_GREEN);
-    list.entries.at(3)->setBackgroundColor(COLOR_CYAN, COLOR_CYAN, COLOR_CYAN);
     this->ui.add(list);
-
-    for(int i = 0; i < 20; i++) {
-        this->text[i].init((std::to_string(i) + " Hallo").data(), DataManager::defaultFont, i, 210, i * 20, 200, 30, CENTERED_VERTICAL_LEFT);
-        this->ui.add(text[i]);
-    }
 }
 
 void MainScreen::render() {
@@ -75,7 +69,7 @@ void MainScreen::fieldHeightCallback(std::string content, std::string passwordCo
 }
 
 void MainScreen::createWindow(bool shift) {
-    if(width < 400 && height < 400)
+    if(width < 400 || height < 400 || width > 5000 || height > 5000)
         return;
     glViewport(0, 0, width, height);
     this->setSize(width, height);

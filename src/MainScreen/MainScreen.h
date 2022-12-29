@@ -17,7 +17,6 @@ private:
     Font font;
     UITextField fieldWidth, fieldHeight;
     UIList list;
-    UIText text[20];
     std::vector<UIButton> listItems;
     int width, height;
 
