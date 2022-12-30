@@ -10,18 +10,22 @@ public:
     void end();
 private:
     void switchBetween();
+    void setup();
+    void showList();
     void createWindow(bool shift);
     UIManager ui;
     UIImage backgroundImage;
     Texture backgroundTexture;
     Font font;
-    UITextField fieldWidth, fieldHeight;
     UIList list;
-    std::vector<UIButton> listItems;
+    UITextField fieldWidth, fieldHeight;
     int width, height;
+    bool editing = false;
+    void listCallback(bool pressed, bool hovered, int entryIndex);
 
     void fieldWidthCallback(std::string content, std::string passwordContent);
     void fieldHeightCallback(std::string content, std::string passwordContent);
+
     void keyCallback(int key, int scancode, int action, int mods) override;
     void charCallback(unsigned int key) override;
     void mousePositionCallback(double x, double y) override;

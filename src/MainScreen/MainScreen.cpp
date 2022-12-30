@@ -1,11 +1,8 @@
-#include <iostream>
 #include "MainScreen.h"
-#include "UI/UIStructure/DataManager.h"
-#include "UI/UIComponents/Text/Structure/FontType.h"
 
 void MainScreen::init() {
-    width = 500;
-    height = 200 * 3;
+    width = 400;
+    height = 400;
     this->hint(GLFW_RESIZABLE, GLFW_FALSE);
     this->initWindow("UI-Editor", width, height);
     this->setIcon("../Assets/Textures/Icon.png");
@@ -26,31 +23,26 @@ void MainScreen::init() {
     backgroundImage.setColor({1.0, 1.0, 1.0, 0.2});
     this->ui.add(backgroundImage);
 
-
     font.init("../Assets/arial.ttf");
 
     int offsetX = 20;
-    int offsetY = 80;
+    int offsetY = 180;
     int sizeY = 50;
     fieldWidth.init("Width", &font, 40, offsetX, height - offsetY - sizeY * 2, width - offsetX * 2, sizeY, 2);
     fieldHeight.init("Height", &font, 40, offsetX, height - offsetY, width - offsetX * 2, sizeY, 2);
-    fieldWidth.setBackgroundColor({0.4, 0.4, 0.4, 0.4}, {0.5, 0.5, 0.5, 0.5}, {0.7, 0.7, 0.7, 0.7});
+    fieldWidth.setBackgroundColor(UIColor(0x909090), UIColor(0xAAAAAA), UIColor(0xCCCCCC));
     fieldHeight.setBackgroundColor(fieldWidth.bgColor.standard, fieldWidth.bgColor.hover, fieldWidth.bgColor.pressed);
-    fieldWidth.setContentCallback(UICALLBACK(MainScreen::fieldWidthCallback));
-    fieldHeight.setContentCallback(UICALLBACK(MainScreen::fieldHeightCallback));
+    fieldWidth.setContentCallback(CB_2(MainScreen::fieldWidthCallback));
+    fieldHeight.setContentCallback(CB_2(MainScreen::fieldHeightCallback));
     fieldWidth.setOnlyNumbers(true);
     fieldHeight.setOnlyNumbers(true);
     fieldWidth.setMaxCharacter(4);
     fieldHeight.setMaxCharacter(4);
+    fieldWidth.setRadii(5);
+    fieldHeight.setRadii(5);
     this->ui.add(fieldWidth);
     this->ui.add(fieldHeight);
-
-    list.init(0, 0, 200, 550, 20, &font);
-    list.addEntry("test1g");
-    list.addEntry("test2g");
-    list.addEntry("test3");
-    list.addEntry("test4");
-    this->ui.add(list);
+    setup();
 }
 
 void MainScreen::render() {
@@ -69,6 +61,8 @@ void MainScreen::fieldHeightCallback(std::string content, std::string passwordCo
 }
 
 void MainScreen::createWindow(bool shift) {
+    if(editing)
+        return;
     if(width < 400 || height < 400 || width > 5000 || height > 5000)
         return;
     glViewport(0, 0, width, height);
@@ -76,10 +70,13 @@ void MainScreen::createWindow(bool shift) {
     if(shift){
         this->ui.remove(fieldWidth);
         this->ui.remove(fieldHeight);
+        editing = true;
     }
 }
 
 void MainScreen::switchBetween() {
+    if(editing)
+        return;
     if(fieldWidth.pressed){
         fieldWidth.pressed = fieldWidth.hovered = false;
         fieldHeight.pressed = fieldHeight.hovered = true;
