@@ -2,20 +2,17 @@
 #include "MainScreen.h"
 
 const float listWidth = 100;
-const float listHeight = 30 * 5 + 2;
 const float listWidthHalf = listWidth / 2;
-const float listHeightHalf = listHeight / 2;
 
 void MainScreen::setup(){
-   // list.init(0, 0, listWidth, AUTO_HEIGHT, 30, &font);
-    list.init(0, 0, listWidth, listHeight, 30, &font);
+    list.init(0, 0, listWidth, AUTO_HEIGHT, 30, &font);
     list.setCallback(CB_3(MainScreen::listCallback));
     list.setBackgroundColor(COLOR_RED);
-    list.addEntry("Test");
-    list.addEntry("Test", 2);
-    list.addEntry("Test");
-    list.addEntry("Test");
-    list.addEntry("Test");
+    list.addEntry("Test1");
+    list.addEntry("Test2");
+    list.addEntry("Test3");
+    list.addEntry("Test4");
+    list.addEntry("Test5");
     list.setRadii(5, 1, 1, 1, 1);
 }
 
@@ -27,6 +24,8 @@ void MainScreen::showList() {
         this->ui.remove(list);
         return;
     }
+
+    auto listHeightHalf = list.height / 2;
 
     if(x - listWidthHalf < 0)
         x = listWidthHalf;
