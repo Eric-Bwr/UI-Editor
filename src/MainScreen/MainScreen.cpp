@@ -88,6 +88,4 @@ void MainScreen::switchBetween() {
     }
 }
 
-void MainScreen::end() {
-
-}
+void MainScreen::end() {}

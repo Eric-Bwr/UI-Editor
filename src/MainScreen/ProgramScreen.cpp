@@ -1,18 +1,21 @@
-#include <iostream>
 #include "MainScreen.h"
 
-const float listWidth = 100;
+const float listWidth = 170;
 const float listWidthHalf = listWidth / 2;
 
 void MainScreen::setup(){
     list.init(0, 0, listWidth, AUTO_HEIGHT, 30, &font);
     list.setCallback(CB_3(MainScreen::listCallback));
-    list.setBackgroundColor(COLOR_RED);
-    list.addEntry("Test1");
-    list.addEntry("Test2");
-    list.addEntry("Test3");
-    list.addEntry("Test4");
-    list.addEntry("Test5");
+    list.addEntry("Image", 2.0f);
+    list.addEntry("Button", 2.0f);
+    list.addEntry("Circular Bar", 2.0f);
+    list.addEntry("List", 2.0f);
+    list.addEntry("Scrollbar", 2.0f);
+    list.addEntry("Slider", 2.0f);
+    list.addEntry("Switch", 2.0f);
+    list.addEntry("Text", 2.0f);
+    list.addEntry("Text Field", 2.0f);
+    list.addEntry("Text Area", 2.0f);
     list.setRadii(5, 1, 1, 1, 1);
 }
 
@@ -26,6 +29,9 @@ void MainScreen::showList() {
     }
 
     auto listHeightHalf = list.height / 2;
+
+    summonX = x;
+    summonY = y;
 
     if(x - listWidthHalf < 0)
         x = listWidthHalf;
@@ -45,5 +51,36 @@ void MainScreen::showList() {
 }
 
 void MainScreen::listCallback(bool pressed, bool hovered, int entryIndex) {
-    std::cout << entryIndex << ": " << pressed << " " << hovered << std::endl;
+    if(pressed && hovered)
+        addElement(entryIndex);
+}
+
+template<typename T>
+T MainScreen::add(T component) {
+    this->elements.push_back(component);
+    this->ui.add(component);
+    return component;
+}
+
+void MainScreen::addElement(int id) {
+    if(id == 0)
+        add(new UIImage())->init(summonX, summonY);
+    else if(id == 1)
+        add(new UIButton())->init(summonX, summonY);
+    else if(id == 2)
+        add(new UICircularBar())->init(summonX, summonY, 300, 300);
+    else if(id == 3)
+        add(new UIList())->init(summonX, summonY);
+    //else if(id == 4)
+    //    add(new UIScrollbar())->init(summonX, summonY, 300, 300);
+    else if(id == 5)
+        add(new UISlider())->init(summonX, summonY);
+    else if(id == 6)
+        add(new UISwitch())->init(summonX, summonY);
+    //else if(id == 7)
+    //    add(new UIText())->init(summonX, summonY, 300, 300);
+    //else if(id == 8)
+    //    add(new UITextField())->init(summonX, summonY, 300, 300);
+    else if(id == 9)
+        add(new UITextArea())->init(summonX, summonY);
 }

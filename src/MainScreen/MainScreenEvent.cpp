@@ -22,8 +22,8 @@ void MainScreen::mousePositionCallback(double x, double y) {
 
 void MainScreen::mouseButtonCallback(int button, int action, int mods) {
     ui.mouseButtonInput(button, action);
-   //TODO: if(!editing)
-   //TODO:     return;
+    if(!editing)
+        return;
     if(action == GLFW_PRESS){
         if(button == GLFW_MOUSE_BUTTON_2)
             showList();

@@ -19,9 +19,14 @@ private:
     Font font;
     UIList list;
     UITextField fieldWidth, fieldHeight;
+    std::vector<UIComponent*> elements;
+    float summonX = 0.0f, summonY = 0.0f;
+    template<typename T>
+    T add(T component);
     int width, height;
     bool editing = false;
     void listCallback(bool pressed, bool hovered, int entryIndex);
+    void addElement(int id);
 
     void fieldWidthCallback(std::string content, std::string passwordContent);
     void fieldHeightCallback(std::string content, std::string passwordContent);
