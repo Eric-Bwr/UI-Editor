@@ -10,7 +10,6 @@ void MainScreen::setup(){
     list.addEntry("Button", 2.0f);
     list.addEntry("Circular Bar", 2.0f);
     list.addEntry("List", 2.0f);
-    list.addEntry("Scrollbar", 2.0f);
     list.addEntry("Slider", 2.0f);
     list.addEntry("Switch", 2.0f);
     list.addEntry("Text", 2.0f);
@@ -71,16 +70,14 @@ void MainScreen::addElement(int id) {
         add(new UICircularBar())->init(summonX, summonY, 300, 300);
     else if(id == 3)
         add(new UIList())->init(summonX, summonY);
-    //else if(id == 4)
-    //    add(new UIScrollbar())->init(summonX, summonY, 300, 300);
-    else if(id == 5)
+    else if(id == 4)
         add(new UISlider())->init(summonX, summonY);
-    else if(id == 6)
+    else if(id == 5)
         add(new UISwitch())->init(summonX, summonY);
-    //else if(id == 7)
-    //    add(new UIText())->init(summonX, summonY, 300, 300);
-    //else if(id == 8)
-    //    add(new UITextField())->init(summonX, summonY, 300, 300);
-    else if(id == 9)
-        add(new UITextArea())->init(summonX, summonY);
+    else if(id == 6)
+        add(new UIText())->init("Text", &font, 20, summonX, summonY, 200, 30, UITextMode::CENTERED_VERTICAL_LEFT);
+    else if(id == 7)
+        add(new UITextField())->init("Text Field", &font, 20, summonX, summonY, 200, 30);
+    else if(id == 8)
+        add(new UITextArea())->init(&font, 20, summonX, summonY, 300, 300);
 }
