@@ -1,4 +1,5 @@
 #include "MainScreen.h"
+#include <Math/AABB.h>
 
 const float listWidth = 170;
 const float listWidthHalf = listWidth / 2;
@@ -62,12 +63,16 @@ T MainScreen::add(T component) {
 }
 
 void MainScreen::addElement(int id) {
+    if(id != 2 && id < 6 && id > 8){
+        summonX -= DEFAULT_WIDTH / 2.0f;
+        summonY -= DEFAULT_HEIGHT / 2.0f;
+    }
     if(id == 0)
         add(new UIImage())->init(summonX, summonY);
     else if(id == 1)
         add(new UIButton())->init(summonX, summonY);
     else if(id == 2)
-        add(new UICircularBar())->init(summonX, summonY, 300, 300);
+        add(new UICircularBar())->init(summonX - 150, summonY - 150, 300, 300);
     else if(id == 3)
         add(new UIList())->init(summonX, summonY);
     else if(id == 4)
@@ -75,9 +80,30 @@ void MainScreen::addElement(int id) {
     else if(id == 5)
         add(new UISwitch())->init(summonX, summonY);
     else if(id == 6)
-        add(new UIText())->init("Text", &font, 20, summonX, summonY, 200, 30, UITextMode::CENTERED_VERTICAL_LEFT);
+        add(new UIText())->init("Text", &font, 20, summonX - 50, summonY - 15, 100, 30, UITextMode::CENTERED_VERTICAL_LEFT);
     else if(id == 7)
-        add(new UITextField())->init("Text Field", &font, 20, summonX, summonY, 200, 30);
+        add(new UITextField())->init("Text Field", &font, 20, summonX - 100, summonY - 15, 200, 30);
     else if(id == 8)
-        add(new UITextArea())->init(&font, 20, summonX, summonY, 300, 300);
+        add(new UITextArea())->init(&font, 20, summonX - 150, summonY - 150, 300, 300);
+}
+
+void MainScreen::isHoveringOnElement(){
+    float x = this->ui.mouseX;
+    float y = this->ui.mouseY;
+    for(const auto& element : elements){
+        if(AABB::inside(element->positionX, element->positionY, element->width, element->height, x, y)){
+            currentElement = element;
+            break;
+        }
+    }
+}
+
+void MainScreen::moveElement() {
+    //TODO: CONFINE TO WINDOW
+    //TODO: SNAP TO OTHER ELEMENTS
+    if(currentElement != nullptr){
+        float x = this->ui.mouseX;
+        float y = this->ui.mouseY;
+        currentElement->setPosition(x - currentElement->width / 2.0f, y - currentElement->height / 2.0f);
+    }
 }

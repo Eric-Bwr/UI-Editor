@@ -25,8 +25,12 @@ private:
     T add(T component);
     int width, height;
     bool editing = false;
+    bool shiftPressed = false;
+    UIComponent* currentElement = nullptr;
     void listCallback(bool pressed, bool hovered, int entryIndex);
     void addElement(int id);
+    void moveElement();
+    void isHoveringOnElement();
 
     void fieldWidthCallback(std::string content, std::string passwordContent);
     void fieldHeightCallback(std::string content, std::string passwordContent);

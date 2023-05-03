@@ -8,6 +8,11 @@ void MainScreen::keyCallback(int key, int scancode, int action, int mods){
             createWindow(mods == GLFW_MOD_SHIFT);
         else if(key == GLFW_KEY_TAB)
             switchBetween();
+        else if(key == GLFW_KEY_LEFT_SHIFT)
+            shiftPressed = true;
+    }else if(action == GLFW_RELEASE){
+        if(key == GLFW_KEY_LEFT_SHIFT)
+            shiftPressed = false;
     }
     ui.keyInput(key, action, mods);
 }
@@ -27,8 +32,14 @@ void MainScreen::mouseButtonCallback(int button, int action, int mods) {
     if(action == GLFW_PRESS){
         if(button == GLFW_MOUSE_BUTTON_2)
             showList();
-        else if(button == GLFW_MOUSE_BUTTON_1)
+        else if(button == GLFW_MOUSE_BUTTON_1){
             this->ui.contains(list) ? this->ui.remove(list) : void();
+            if(shiftPressed){
+                isHoveringOnElement();
+            }
+        }
+    }else if(action == GLFW_RELEASE){
+        currentElement = nullptr;
     }
 }
 
